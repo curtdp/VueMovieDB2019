@@ -1,35 +1,19 @@
 <template>
-  <div class="home">
-    <h1>{{ movie.title }}</h1>
+  <div class="home text-center">
+    <h1 class="mb-2">Самые популярные фильмы</h1>
+    <MoviesList />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import config from "@/config";
+import MoviesList from "@/components/MoviesList";
 
 export default {
   name: "home",
-  data() {
-    return {
-      movie: {}
-    };
-  },
-  created() {
-    this.fetchData();
-  },
-  methods: {
-    fetchData: async function() {
-      try {
-        const res = await fetch(
-          `https://api.themoviedb.org/3/movie/550?api_key=${config.api_key}`
-        );
-        this.movie = await res.json();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  },
-  components: {}
+
+  components: {
+    MoviesList
+  }
 };
 </script>
