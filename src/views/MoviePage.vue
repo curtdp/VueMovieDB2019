@@ -48,9 +48,7 @@ export default {
           }?api_key=${config.api_key}`
         );
         this.movie = await res.json();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   },
   components: {}

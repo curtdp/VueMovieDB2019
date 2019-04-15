@@ -26,9 +26,7 @@ export default {
         );
         const moviesData = await res.json();
         this.movies = moviesData.results;
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   },
   components: {
