@@ -62,7 +62,7 @@ export default {
   //   }
   // },
   methods: {
-    fetchData: async function(movieId = this.$route.params.id) {
+    async fetchData(movieId = this.$route.params.id) {
       try {
         const res = await fetch(
           `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
