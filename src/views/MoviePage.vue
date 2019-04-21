@@ -1,12 +1,22 @@
 <template>
   <div class="home">
-    <div
-      class="backdrop-image bg-cover w-full bg-blue-light h-64 flex justify-center items-center text-4xl mb-4"
-      :style="backdropStyles"
-    >
-      <h1 class="movieTitle text-white">{{ movie.title }}</h1>
+    <div v-if="isLoading">Loading</div>
+    <div v-else>
+      <div
+        class="backdrop-image p-8 bg-cover w-full bg-blue-light min-h-64 flex justify-center items-center text-2xl mb-4"
+        :style="backdropStyles"
+      >
+        <h1 class="movieTitle text-white">{{ movie.title }}</h1>
+      </div>
+      <div class="flex flex-wrap xs:flex-no-wrap mx-8">
+        <div class="w-full xs:w-1/4 xs:mr-4">
+          <img :src="posterPath" alt="" srcset="" />
+        </div>
+        <div class="movieContent w-full xs:w-3/4">
+          {{ movie.overview }}
+        </div>
+      </div>
     </div>
-    <img :src="posterPath" alt="" srcset="" />
   </div>
 </template>
 
@@ -18,6 +28,7 @@ export default {
   name: "home",
   data() {
     return {
+      isLoading: true,
       movie: {}
     };
   },
@@ -34,20 +45,32 @@ export default {
     backdropStyles() {
       return {
         backgroundImage: `url(${config.images.secure_base_url}${
-          config.images.backdrop_sizes[2]
+          config.images.backdrop_sizes[3]
         }${this.movie.backdrop_path})`
       };
     }
   },
+  async beforeRouteUpdate(to, from, next) {
+    // this.isLoading = true;
+    // this.movie = null;
+    await this.fetchData(to.params.id);
+    next();
+  },
+  // watch: {
+  //   $route() {
+  //     this.fetchData();
+  //   }
+  // },
   methods: {
-    fetchData: async function() {
+    fetchData: async function(movieId = this.$route.params.id) {
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${
-            this.$route.params.id
-          }?api_key=${config.api_key}`
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+            config.api_key
+          }`
         );
         this.movie = await res.json();
+        this.isLoading = false;
       } catch (error) {}
     }
   },

@@ -1,12 +1,28 @@
 <template>
-  <div id="app" class="mx-8">
-    <div id="nav" class="text-center">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div id="app">
+    <div class="flex justify-between items-center">
+      <div id="nav" class="text-center">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
+      <div class="">
+        <SearchForm />
+      </div>
     </div>
+
     <router-view />
   </div>
 </template>
+
+<script>
+import SearchForm from "@/components/SearchForm";
+export default {
+  components: {
+    SearchForm
+  }
+};
+</script>
+
 
 <style>
 #app {

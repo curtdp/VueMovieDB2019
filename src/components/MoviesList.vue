@@ -1,5 +1,5 @@
 <template>
-  <div class="MoviesList text-center">
+  <div class="MoviesList text-center mx-8">
     <MovieCard :movie="movie" v-for="(movie, index) of movies" :key="index" />
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
 <style scoped>
 .MoviesList {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 1rem;
 }
 </style>
