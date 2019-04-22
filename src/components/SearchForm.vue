@@ -88,6 +88,7 @@ export default {
           );
           const result = await res.json();
           this.suggestions = result.results.slice(0, 5);
+          this.highlightedItem = null;
         }
       } catch (error) {}
     },
