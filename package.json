@@ -10,6 +10,7 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
+    "vue-ads-pagination": "^2.1.4",
     "vue-pagination-2": "^2.0.3",
     "vue-router": "^3.0.6"
   },

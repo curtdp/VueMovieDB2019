@@ -2,14 +2,17 @@
   <div class="home text-center">
     <div v-if="isLoading">Loading</div>
     <div v-else>
+      <h3>Пагинатор</h3>
+      <button @click="pageChange">Page Change</button>
+      <vue-ads-pagination
+        :page="1"
+        :itemsPerPage="20"
+        :maxVisiblePages="4"
+        :totalItems="totalResults"
+        @pageChange="pageChange"
+      />
       <h1 class="mb-2">Фильмы жанра — {{ genreName }}</h1>
       <MoviesList :movies="moviesOfGenre" />
-      <h3>Пагинатор</h3>
-      <pagination
-        :records="totalResults"
-        :page="pageNumber"
-        @paginate="runPaginate"
-      ></pagination>
     </div>
   </div>
 </template>
@@ -18,13 +21,13 @@
 // @ is an alias to /src
 import MoviesList from "@/components/MoviesList";
 import config from "@/config";
-import { log } from "util";
+import VueAdsPagination from "vue-ads-pagination";
 
 export default {
   name: "genre",
   data() {
     return {
-      moviesOfGenre: [1, 2, 3],
+      moviesOfGenre: [],
       genreName: "",
       isLoading: true,
       totalResults: null
@@ -34,8 +37,8 @@ export default {
     this.fetchData();
   },
   methods: {
-    runPaginate() {
-      console.log("paginate");
+    pageChange(page, range) {
+      console.log(page, range);
     },
     fetchData() {
       Promise.all([
@@ -83,7 +86,8 @@ export default {
     }
   },
   components: {
-    MoviesList
+    MoviesList,
+    VueAdsPagination
   }
 };
 </script>
