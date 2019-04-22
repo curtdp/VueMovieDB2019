@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div v-if="isLoading">Loading</div>
+    <div v-else-if="isError">Какая-то ошибка</div>
     <div v-else>
       <div
         class="backdrop-image p-8 bg-cover w-full bg-blue-light min-h-64 flex justify-center items-center text-2xl mb-4"
@@ -13,7 +14,22 @@
           <img :src="posterPath" alt="" srcset="" />
         </div>
         <div class="movieContent w-full xs:w-3/4">
-          {{ movie.overview }}
+          <p>
+            Жанр:
+            <span
+              v-for="genre of movie.genres"
+              :key="genre.id"
+              class="genreLink"
+            >
+              <router-link :to="`/genre/${genre.id}`">{{
+                genre.name
+              }}</router-link>
+            </span>
+          </p>
+          <h2 class="mb-2">Описание фильма</h2>
+          <main class="leading-tight">
+            {{ movie.overview }}
+          </main>
         </div>
       </div>
     </div>
@@ -29,6 +45,7 @@ export default {
   data() {
     return {
       isLoading: true,
+      isError: false,
       movie: {}
     };
   },
@@ -40,7 +57,7 @@ export default {
       return `${config.images.secure_base_url}${config.images.poster_sizes[3]}${
         this.movie.poster_path
       }`;
-      // https://image.tmdb.org/t/p/w500/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg
+      // https://image.tmdb.org/t/p/w500/undefinded.jpg
     },
     backdropStyles() {
       return {
@@ -69,9 +86,17 @@ export default {
             config.api_key
           }`
         );
-        this.movie = await res.json();
+        if (res.ok) {
+          this.movie = await res.json();
+          this.isLoading = false;
+        } else {
+          throw Error("Что-то пошло не так.");
+        }
+      } catch (error) {
+        console.error(error);
         this.isLoading = false;
-      } catch (error) {}
+        this.isError = true;
+      }
     }
   },
   components: {}
@@ -81,5 +106,12 @@ export default {
 <style scoped>
 .movieTitle {
   text-shadow: 7px 3px 14px black;
+}
+.genreLink::after {
+  content: ", ";
+}
+
+.genreLink a:hover {
+  text-decoration: none;
 }
 </style>
