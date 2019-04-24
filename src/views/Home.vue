@@ -11,6 +11,7 @@ import MoviesList from "@/components/MoviesList";
 import config from "@/config";
 
 export default {
+  props: ["lang"],
   name: "home",
   data() {
     return {
@@ -26,11 +27,16 @@ export default {
         const res = await fetch(
           `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${
             config.api_key
-          }`
+          }&language=${this.lang}`
         );
         const moviesData = await res.json();
         this.popularMovies = moviesData.results;
       } catch (error) {}
+    }
+  },
+  watch: {
+    lang() {
+      this.fetchData();
     }
   },
 

@@ -25,6 +25,7 @@ import VueAdsPagination from "vue-ads-pagination";
 
 export default {
   name: "genre",
+  props: ["lang"],
   data() {
     return {
       moviesOfGenre: [],
@@ -47,7 +48,7 @@ export default {
             config.api_key
           }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${
             this.$route.params.genreId
-          }`
+          }&language=${this.lang}`
         )
           .then(genresResponse => {
             return genresResponse.json();
@@ -59,7 +60,7 @@ export default {
         fetch(
           `https://api.themoviedb.org/3/genre/movie/list?api_key=${
             config.api_key
-          }`
+          }&language=${this.lang}`
         )
           .then(res => {
             return res.json();
@@ -83,6 +84,11 @@ export default {
   computed: {
     pageNumber() {
       return this.$route.params.pageNumber ? this.$route.params.pageNumber : 1;
+    }
+  },
+  watch: {
+    lang() {
+      this.fetchData();
     }
   },
   components: {

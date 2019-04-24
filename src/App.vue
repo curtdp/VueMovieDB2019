@@ -5,18 +5,32 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
       </div>
+      <div>
+        <select v-model="lang" name="" id="">
+          <option value="uk">Українська</option>
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
       <div class="">
         <SearchForm />
       </div>
     </div>
 
-    <router-view />
+    <router-view :lang="lang" />
   </div>
 </template>
 
 <script>
 import SearchForm from "@/components/SearchForm";
 export default {
+  name: "App",
+  data() {
+    return {
+      lang: "uk"
+    };
+  },
   components: {
     SearchForm
   }
