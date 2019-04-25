@@ -1,6 +1,6 @@
 <template>
   <div class="home text-center">
-    <h1 class="mb-2">Самые популярные фильмы</h1>
+    <h1 class="mb-2">{{ $t("pageTitle") }}</h1>
     <MoviesList :movies="popularMovies" />
   </div>
 </template>
@@ -45,3 +45,17 @@ export default {
   }
 };
 </script>
+
+<i18n>
+{
+  "uk": {
+    "pageTitle": "Найпопулярніші кінострічки"
+  },
+  "ru": {
+    "pageTitle": "Самые популярные фильмы"
+  },
+  "en": {
+    "pageTitle": "Most popular movies"
+  }
+}
+</i18n>

@@ -6,7 +6,7 @@
           type="text"
           v-model="searchText"
           class="border px-4 py-2 rounded"
-          placeholder="Поиск"
+          :placeholder="$t('search')"
           @keydown.down="highlightNext"
           @keydown.up="highlightPrev"
           @keydown.enter="showResults"
@@ -39,7 +39,7 @@
         @click="makeSearch"
         class="px-4 py-2 bg-blue-dark text-white font-bold rounded"
       >
-        Поиск
+        {{ $t("search") }}
       </button>
     </div>
   </div>
@@ -111,6 +111,20 @@ export default {
   }
 };
 </script>
+
+<i18n>
+{
+  "en": {
+    "search": "Search"
+  },
+  "uk": {
+    "search": "Пошук"
+  },
+  "ru": {
+    "search": "Поиск"
+  }
+}
+</i18n>
 
 <style>
 </style>

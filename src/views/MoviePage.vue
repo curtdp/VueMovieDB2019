@@ -15,7 +15,7 @@
         </div>
         <div class="movieContent w-full xs:w-3/4">
           <p>
-            Жанр:
+            {{ $t("genre") }}:
             <span
               v-for="genre of movie.genres"
               :key="genre.id"
@@ -26,7 +26,7 @@
               }}</router-link>
             </span>
           </p>
-          <h2 class="mb-2">Описание фильма</h2>
+          <h2 class="mb-2">{{ $t("descriptionTitle") }}</h2>
           <main class="leading-tight">
             {{ movie.overview }}
           </main>
@@ -103,6 +103,23 @@ export default {
   components: {}
 };
 </script>
+
+<i18n>
+{
+  "ru": {
+    "genre": "Жанр",
+    "descriptionTitle": "Описание фильма"
+  },
+  "uk": {
+    "genre": "Жанр",
+    "descriptionTitle": "Опис кінострічки"
+  },
+  "en": {
+    "genre": "Genre",
+    "descriptionTitle": "Movie description"
+  }
+}
+</i18n>
 
 <style scoped>
 .movieTitle {
