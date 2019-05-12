@@ -3,6 +3,7 @@
     <div class="flex">
       <div class="relative mr-2">
         <input
+          data-cy="searchInput"
           type="text"
           v-model="searchText"
           class="border px-4 py-2 rounded"
@@ -16,18 +17,20 @@
         <div class="absolute w-full mt-1" v-show="suggestions.length > 0">
           <ul
             class="list-reset bg-white border rounded overflow-hidden shadow-lg"
+            data-cy="searchSuggestions"
           >
             <li
               v-for="suggestion of suggestions"
               :key="suggestion.id"
               class="p-2 hover:bg-grey-light"
+              data-cy="suggestionItem"
               :class="[
                 highlightedItem === suggestions.indexOf(suggestion)
                   ? 'bg-grey'
                   : ''
               ]"
             >
-              <router-link :to="`/movie/${suggestion.id}`">
+              <router-link data-cy="suggestionItemLink" :to="`/movie/${suggestion.id}`">
                 {{ suggestion.title }}
               </router-link>
             </li>

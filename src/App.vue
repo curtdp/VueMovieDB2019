@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 class="mx-8 mt-8">{{ $t("siteName") }}</h1>
+    <h1 data-cy="siteName" class="mx-8 mt-8">{{ $t("siteName") }}</h1>
     <div class="flex justify-between items-center mx-8 mb-4">
       <div id="nav" class="text-center">
         <router-link to="/">{{ $t("home") }}</router-link> |
