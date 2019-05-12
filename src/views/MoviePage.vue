@@ -30,6 +30,12 @@
           <main class="leading-tight">
             {{ movie.overview }}
           </main>
+          <div class="mt-8">
+            <h2>Трейлеры</h2>
+            <div v-for="video of videos" :key="video.id" class="playerWrapper">
+              <iframe class="videoplayer" :src="`https://www.youtube.com/embed/${video.key}`" frameborder="0"></iframe>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -47,7 +53,8 @@ export default {
     return {
       isLoading: true,
       isError: false,
-      movie: {}
+      movie: {},
+      videos: []
     };
   },
   created() {
@@ -83,13 +90,14 @@ export default {
     async fetchData(movieId = this.$route.params.id) {
       try {
         const res = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${
+          `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos&api_key=${
             config.api_key
           }&language=${this.lang}`
         );
         if (res.ok) {
           this.movie = await res.json();
           this.isLoading = false;
+          this.videos = this.movie.videos.results;
         } else {
           throw Error("Что-то пошло не так.");
         }
@@ -132,4 +140,17 @@ export default {
 .genreLink a:hover {
   text-decoration: none;
 }
+
+.videoplayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.playerWrapper {
+    position:relative;
+    padding-top: 56.25%;
+  }
 </style>

@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <div class="flex justify-between items-center">
+    <h1 class="mx-8 mt-8">{{ $t("siteName") }}</h1>
+    <div class="flex justify-between items-center mx-8 mb-4">
       <div id="nav" class="text-center">
         <router-link to="/">{{ $t("home") }}</router-link> |
         <router-link to="/about">{{ $t("about") }}</router-link>
       </div>
-      <div>
+      <div class="text-center">
         <select v-model="lang" name="" id="">
           <option value="uk">Українська</option>
           <option value="ru">Русский</option>
@@ -13,7 +14,7 @@
         </select>
       </div>
 
-      <div class="">
+      <div class="text-center">
         <SearchForm />
       </div>
     </div>
@@ -48,14 +49,10 @@ export default {
 };
 </script>
 
-
 <style>
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-#nav {
-  padding: 30px;
 }
 
 #nav a {
@@ -65,5 +62,13 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.pagination-item {
+  margin: 0 0.5rem;
+  width: 3rem;
+  border: 1px solid red;
+  border-radius: 5px;
+  padding: 8px;
 }
 </style>

@@ -3,13 +3,11 @@
     <div v-if="isLoading">Loading</div>
     <div v-else>
       <h3>Пагинатор</h3>
-      <button @click="pageChange">Page Change</button>
-      <vue-ads-pagination
-        :page="1"
-        :itemsPerPage="20"
-        :maxVisiblePages="4"
-        :totalItems="totalResults"
-        @pageChange="pageChange"
+      <v-pagination
+        class="flex list-reset justify-center"
+        v-model="currentPage"
+        :page-count="totalPages"
+        :labels="paginationAnchorTexts"
       />
       <h1 class="mb-2">Фильмы жанра — {{ genreName }}</h1>
       <MoviesList :movies="moviesOfGenre" />
@@ -21,7 +19,7 @@
 // @ is an alias to /src
 import MoviesList from "@/components/MoviesList";
 import config from "@/config";
-import VueAdsPagination from "vue-ads-pagination";
+import vPagination from "vue-plain-pagination";
 
 export default {
   name: "genre",
@@ -31,24 +29,30 @@ export default {
       moviesOfGenre: [],
       genreName: "",
       isLoading: true,
-      totalResults: null
+      totalResults: null,
+      totalPages: null,
+      currentPage: 1,
+      paginationAnchorTexts: {
+        first: "First",
+        prev: "Previous",
+        next: "Next",
+        last: "Last"
+      }
     };
   },
   created() {
+    this.currentPage = Number(this.$route.params.pageNumber);
     this.fetchData();
   },
   methods: {
-    pageChange(page, range) {
-      console.log(page, range);
-    },
     fetchData() {
       Promise.all([
         fetch(
           `https://api.themoviedb.org/3/discover/movie?api_key=${
             config.api_key
-          }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${
-            this.$route.params.genreId
-          }&language=${this.lang}`
+          }&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${
+            this.currentPage
+          }&with_genres=${this.$route.params.genreId}&language=${this.lang}`
         )
           .then(genresResponse => {
             return genresResponse.json();
@@ -56,6 +60,7 @@ export default {
           .then(genresData => {
             this.moviesOfGenre = genresData.results;
             this.totalResults = genresData.total_results;
+            this.totalPages = genresData.total_pages;
           }),
         fetch(
           `https://api.themoviedb.org/3/genre/movie/list?api_key=${
@@ -89,11 +94,18 @@ export default {
   watch: {
     lang() {
       this.fetchData();
+    },
+    currentPage() {
+      console.log("paginate", this.currentPage);
+      this.$router.push(
+        `/genre/${this.$route.params.genreId}/page/${this.currentPage}`
+      );
+      this.fetchData();
     }
   },
   components: {
     MoviesList,
-    VueAdsPagination
+    vPagination
   }
 };
 </script>
