@@ -4,9 +4,11 @@ describe("Форма поиска работает", () => {
     cy.visit("/");
   })
   it("Подсвечивает первый элемент подсказок", () => {
+    cy.clock()
     cy.get("[data-cy=searchInput]")
       .type("Месники")
-      .type("{downarrow}");
+      .type("{downarrow}")
+      .tick(500)
     cy.get("[data-cy=searchSuggestions] > :nth-child(1)").should(
       "have.class",
       "bg-grey"
